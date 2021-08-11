@@ -8,10 +8,13 @@ import java.util.Objects;
 abstract class Money {
     protected int amount;
 
-    public static Dollar dollar(int i) {
+    static Dollar dollar(int i) {
         return new Dollar(i);
     }
 
+    static Franck franck(int i) {
+        return new Franck(i);
+    }
 
 
     @Override
@@ -27,5 +30,5 @@ abstract class Money {
         return Objects.hash(amount);
     }
 
-    public abstract Money multiply(int i);
+    abstract Money multiply(int i);
 }

@@ -5,11 +5,12 @@ package com.epam.jap;
  */
 class Dollar extends Money {
 
-    public Dollar(int i) {
+    Dollar(int i) {
         amount = i;
     }
 
-    public Dollar multiply(int i) {
+    @Override
+    Dollar multiply(int i) {
         return new Dollar(amount * i);
     }
 
