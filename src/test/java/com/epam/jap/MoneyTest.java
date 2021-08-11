@@ -40,8 +40,8 @@ class MoneyTest {
     @Test
     void equals_DollarNotEqualsToFranck() {
         SoftAssertions softAssertions = new SoftAssertions();
-        softAssertions.assertThat(new Dollar(2)).isNotEqualTo(Money.franck(2));
-        softAssertions.assertThat(new Dollar(2)).isNotEqualTo(Money.franck(5));
+        softAssertions.assertThat(Money.dollar(2)).isNotEqualTo(Money.franck(2));
+        softAssertions.assertThat(Money.dollar(2)).isNotEqualTo(Money.franck(5));
         softAssertions.assertAll();
     }
 }

@@ -10,11 +10,16 @@ abstract class Money {
     protected String currencyCode;
 
     static Dollar dollar(int i) {
-        return new Dollar(i);
+        return new Dollar(i, "USD");
     }
 
     static Franck franck(int i) {
-        return new Franck(i);
+        return new Franck(i, "CHF");
+    }
+
+    Money (int i, String currency) {
+        amount = i;
+        currencyCode = currency;
     }
 
 

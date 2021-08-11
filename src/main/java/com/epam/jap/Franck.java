@@ -5,13 +5,12 @@ package com.epam.jap;
  */
 class Franck extends Money{
 
-    Franck(int i) {
-        amount = i;
-        currencyCode = "CHF";
+    Franck (int i, String currency) {
+        super(i, currency);
     }
 
     @Override
     Franck multiply(int i) {
-        return new Franck(amount * i);
+        return Money.franck(amount * i);
     }
 }

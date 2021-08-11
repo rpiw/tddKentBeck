@@ -5,14 +5,13 @@ package com.epam.jap;
  */
 class Dollar extends Money {
 
-    Dollar(int i) {
-        amount = i;
-        currencyCode = "USD";
+    Dollar (int i, String currency) {
+        super(i, currency);
     }
 
     @Override
     Dollar multiply(int i) {
-        return new Dollar(amount * i);
+        return Money.dollar(amount * i);
     }
 
 }
