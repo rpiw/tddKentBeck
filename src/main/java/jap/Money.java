@@ -1,4 +1,4 @@
-package com.epam.jap;
+package jap;
 
 import java.util.Objects;
 
