@@ -7,6 +7,7 @@ class Dollar extends Money {
 
     Dollar(int i) {
         amount = i;
+        currencyCode = "USD";
     }
 
     @Override

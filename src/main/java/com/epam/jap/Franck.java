@@ -7,6 +7,7 @@ class Franck extends Money{
 
     Franck(int i) {
         amount = i;
+        currencyCode = "CHF";
     }
 
     @Override

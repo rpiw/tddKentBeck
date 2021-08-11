@@ -7,6 +7,7 @@ import java.util.Objects;
  */
 abstract class Money {
     protected int amount;
+    protected String currencyCode;
 
     static Dollar dollar(int i) {
         return new Dollar(i);
@@ -31,4 +32,8 @@ abstract class Money {
     }
 
     abstract Money multiply(int i);
+
+    String currency() {
+        return currencyCode;
+    }
 }
