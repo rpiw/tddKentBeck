@@ -10,13 +10,6 @@ import org.assertj.core.api.SoftAssertions;
 class DollarTest {
 
     @Test
-    void multiplication_WhenCorrectNumbers_GiveCorrectResult() {
-        Dollar five = new Dollar(5);
-        var p = five.multiply(2);
-        assertEquals(new Dollar(10), p);
-    }
-
-    @Test
     void multiplication_WhenMultipliesTwice_NewObjectIsCreated() {
         Dollar five = new Dollar(5);
         SoftAssertions softAssertions = new SoftAssertions();
