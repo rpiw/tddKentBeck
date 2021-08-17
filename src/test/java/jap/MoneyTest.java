@@ -12,8 +12,8 @@ class MoneyTest {
     void multiplication_WhenMultipliesDollar_NewObjectIsCreated() {
         Money five = Money.dollar(5);
         SoftAssertions softAssertions = new SoftAssertions();
-        softAssertions.assertThat(five.multiply(2)).isEqualTo(Money.dollar(10));
-        softAssertions.assertThat(five.multiply(3)).isEqualTo(Money.dollar(15));
+        softAssertions.assertThat(five.times(2)).isEqualTo(Money.dollar(10));
+        softAssertions.assertThat(five.times(3)).isEqualTo(Money.dollar(15));
         softAssertions.assertAll();
     }
 
@@ -31,8 +31,8 @@ class MoneyTest {
     void multiplication_WhenMultipliesFranck_NewObjectIsCreated() {
         Money five = Money.franck(5);
         SoftAssertions softAssertions = new SoftAssertions();
-        softAssertions.assertThat(five.multiply(2)).isEqualTo(Money.franck(10));
-        softAssertions.assertThat(five.multiply(3)).isEqualTo(Money.franck(15));
+        softAssertions.assertThat(five.times(2)).isEqualTo(Money.franck(10));
+        softAssertions.assertThat(five.times(3)).isEqualTo(Money.franck(15));
         softAssertions.assertThat(five).isNotEqualTo(Money.franck(123));
         softAssertions.assertAll();
     }
@@ -53,7 +53,8 @@ class MoneyTest {
     @Test
     void add_WhenGivenTheSameCurrency_SimpleAdd() {
         Money dollars = Money.dollar(5);
-        assertEquals(dollars.add(Money.dollar(5)), Money.dollar(10));
+
+        assertEquals(Money.dollar(10), dollars.plus(Money.dollar(5)));
     }
 
     @Test
@@ -89,11 +90,11 @@ class MoneyTest {
 
     @Test
     void reduceMoneyDifferentCurrency() {
-        Money fiveDollars = Money.dollar(5);
-        Money tenFrancs = Money.franck(10);
+        Expression fiveDollars = Money.dollar(5);
+        Expression tenFrancs = Money.franck(10);
         var bank = new Bank();
         bank.addRate("CHF", "USD", 2);
-        var result = bank.reduce(fiveDollars.add(tenFrancs), "USD");
+        var result = bank.reduce(fiveDollars.plus(tenFrancs), "USD");
         assertEquals(Money.dollar(10), result);
     }
 

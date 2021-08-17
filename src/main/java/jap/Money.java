@@ -36,10 +36,6 @@ class Money implements Expression {
         return Objects.hash(amount);
     }
 
-    Money multiply(int i) {
-        return new Money(amount * i, currencyCode);
-    }
-
     @Override
     public String toString() {
         return "Money{" +
@@ -49,21 +45,19 @@ class Money implements Expression {
     }
 
 
-    public Expression add(Money money) {
-        Expression result;
-        if (money.currencyCode.equals(currencyCode)) {
-            result = new Money(amount + money.amount, currencyCode);
-        } else {
-            result = new Sum(this, money);
-        }
-        return result;
-    }
-
-
-
     @Override
     public Money reduce(Bank bank, String targetCurrency) {
         var rate = bank.rate(currencyCode, targetCurrency);
         return new Money(amount / rate, targetCurrency);
+    }
+
+    @Override
+    public Expression times(int multiplier) {
+        return new Money(amount * multiplier, currencyCode);
+    }
+
+    @Override
+    public Expression plus(Expression addend) {
+        return new Sum(this, addend);
     }
 }
