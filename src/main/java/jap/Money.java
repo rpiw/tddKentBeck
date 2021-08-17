@@ -5,19 +5,19 @@ import java.util.Objects;
 /**
  * @author Radoslaw Piwowarski
  */
-abstract class Money {
+class Money implements Expression {
     protected int amount;
     protected String currencyCode;
 
-    static Dollar dollar(int i) {
-        return new Dollar(i, "USD");
+    static Money dollar(int i) {
+        return new Money(i, "USD");
     }
 
-    static Franck franck(int i) {
-        return new Franck(i, "CHF");
+    static Money franck(int i) {
+        return new Money(i, "CHF");
     }
 
-    Money (int i, String currency) {
+    Money(int i, String currency) {
         amount = i;
         currencyCode = currency;
     }
@@ -26,9 +26,9 @@ abstract class Money {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null) return false;
         Money money = (Money) o;
-        return amount == money.amount;
+        return amount == money.amount && money.currencyCode.equals(currencyCode);
     }
 
     @Override
@@ -36,9 +36,34 @@ abstract class Money {
         return Objects.hash(amount);
     }
 
-    abstract Money multiply(int i);
+    Money multiply(int i) {
+        return new Money(amount * i, currencyCode);
+    }
 
-    String currency() {
-        return currencyCode;
+    @Override
+    public String toString() {
+        return "Money{" +
+                "amount=" + amount +
+                ", currencyCode='" + currencyCode + '\'' +
+                '}';
+    }
+
+
+    public Expression add(Money money) {
+        Expression result;
+        if (money.currencyCode.equals(currencyCode)) {
+            result = new Money(amount + money.amount, currencyCode);
+        } else {
+            result = new Sum(this, money);
+        }
+        return result;
+    }
+
+
+
+    @Override
+    public Money reduce(Bank bank, String targetCurrency) {
+        var rate = bank.rate(currencyCode, targetCurrency);
+        return new Money(amount / rate, targetCurrency);
     }
 }

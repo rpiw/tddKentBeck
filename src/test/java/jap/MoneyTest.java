@@ -29,7 +29,7 @@ class MoneyTest {
 
     @Test
     void multiplication_WhenMultipliesFranck_NewObjectIsCreated() {
-        Franck five = Money.franck(5);
+        Money five = Money.franck(5);
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(five.multiply(2)).isEqualTo(Money.franck(10));
         softAssertions.assertThat(five.multiply(3)).isEqualTo(Money.franck(15));
@@ -44,4 +44,57 @@ class MoneyTest {
         softAssertions.assertThat(Money.dollar(2)).isNotEqualTo(Money.franck(5));
         softAssertions.assertAll();
     }
+
+    @Test
+    void equals_WhenSuperClassWithTheSameCurrencyAsChildClass_CompareCurrencyNotClasses() {
+        assertEquals(Money.franck(10), new Money(10, "CHF"));
+    }
+
+    @Test
+    void add_WhenGivenTheSameCurrency_SimpleAdd() {
+        Money dollars = Money.dollar(5);
+        assertEquals(dollars.add(Money.dollar(5)), Money.dollar(10));
+    }
+
+    @Test
+    void add_WhenGivenDifferentCurrency_SumExpressionFromBank() {
+        Money dollar = Money.dollar(5);
+        Expression sum = new Sum(dollar, dollar);
+        Bank bank = new Bank();
+        Money reduced = bank.reduce(sum, "USD");
+        assertEquals(Money.dollar(10), reduced);
+    }
+
+    @Test
+    void add_ReturnSumObject() {
+        Money dollar = Money.dollar(5);
+        Sum sum = new Sum(dollar, dollar);
+        SoftAssertions softAssertions = new SoftAssertions();
+        softAssertions.assertThat(dollar).isEqualTo(sum.augend);
+        softAssertions.assertThat(dollar).isEqualTo(sum.addend);
+        softAssertions.assertAll();
+    }
+
+    @Test
+    void testReduceMoney() {
+        Bank bank = new Bank();
+        Money money = bank.reduce(Money.dollar(1), "USD");
+        assertEquals(Money.dollar(1), money);
+    }
+
+    @Test
+    void testIdentityRate() {
+        assertEquals(1, new Bank().rate("USD", "USD"));
+    }
+
+    @Test
+    void reduceMoneyDifferentCurrency() {
+        Money fiveDollars = Money.dollar(5);
+        Money tenFrancs = Money.franck(10);
+        var bank = new Bank();
+        bank.addRate("CHF", "USD", 2);
+        var result = bank.reduce(fiveDollars.add(tenFrancs), "USD");
+        assertEquals(Money.dollar(10), result);
+    }
+
 }
